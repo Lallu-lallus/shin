@@ -87,11 +87,15 @@ async def get_poster(query, bulk=False, id=False):
         date = movie.get("year")
     else:
         date = "N/A"
-    poster = movie.get('full-size cover url')
-    plot = movie.get('plot outline')
-    if plot and len(plot) > 200000:
-        plot = plot[0:200000] + "..."
-    return {
+    plot = ""
+    if LONG_IMDB_DESCRIPTION:
+        plot = movie.get('plot')
+        if plot and len(plot) > 0:
+            plot = plot[0]
+    else:
+        plot = movie.get('plot outline')
+    if plot and len(plot) > 800:
+        plot = plot[0:800] + "..."    return {
         'title': movie.get('title'),
         'votes': movie.get('votes'),
         "aka": list_to_str(movie.get("akas")),

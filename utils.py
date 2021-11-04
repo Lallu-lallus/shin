@@ -35,6 +35,7 @@ class temp(object):
     CANCEL = False
     MELCOW = {}
     U_NAME = None
+    B_NAME = None
 
 async def is_subscribed(bot, query):
     try:
@@ -78,9 +79,6 @@ async def get_poster(query, bulk=False, id=False):
     else:
         movieid = int(query)
     movie = imdb.get_movie(movieid)
-    title = movie.get('title')
-    genres = ", ".join(movie.get("genres")) if movie.get("genres") else None
-    rating = str(movie.get("rating"))
     if movie.get("original air date"):
         date = movie["original air date"]
     elif movie.get("year"):
@@ -126,7 +124,6 @@ async def get_poster(query, bulk=False, id=False):
         'rating': str(movie.get("rating")),
         'url':f'https://www.imdb.com/title/tt{movieid}'
     }
-
 # https://github.com/odysseusmax/animated-lamp/blob/2ef4730eb2b5f0596ed6d03e7b05243d93e3415b/bot/utils/broadcast.py#L37
 
 async def broadcast_messages(user_id, message):
@@ -220,6 +217,7 @@ def list_to_str(k):
         return str(k[0])
     else:
         return ' '.join(f'{elem}, ' for elem in k)
+
 def last_online(from_user):
     time = ""
     if from_user.is_bot:
